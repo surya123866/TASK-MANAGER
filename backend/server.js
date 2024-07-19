@@ -17,6 +17,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+const app = express();
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", `${process.env.CLIENT_URL}`);
   res.header(
@@ -26,7 +27,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
 
