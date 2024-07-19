@@ -1,23 +1,30 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
-const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const logger = require("../logger");
+const axios = require("axios");
 
 exports.register = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       firstName,
       lastName,
+      picture: "",
       email,
       password: hashedPassword,
     });
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
-    res.status(500).json({ error: "User registration failed" });
+    if (error.name === "SequelizeUniqueConstraintError") {
+      res.status(400).json({ error: "Email already in use" });
+    } else {
+      res.status(500).json({ error: "User registration failed" });
+    }
   }
 };
 
@@ -34,7 +41,7 @@ exports.login = async (req, res) => {
     res.json({
       token,
       user: {
-        name: user.name,
+        name: `${user.firstName} ${user.lastName}`,
         email: user.email,
         picture: user.picture,
       },
@@ -45,23 +52,46 @@ exports.login = async (req, res) => {
 };
 
 exports.googleAuth = async (req, res) => {
-  const { token } = req.body;
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+    const { accessToken } = req.body;
+    if (!accessToken) {
+      return res.status(400).json({ error: "Access token is required" });
+    }
+
+    const url = "https://www.googleapis.com/oauth2/v3/userinfo";
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-    const { name, email, sub, picture } = ticket.getPayload();
+
+    const { given_name, family_name, email, sub, picture } = response.data;
     let user = await User.findOne({ where: { email } });
+
     if (!user) {
+      // Create a new user if one does not exist
       user = await User.create({
-        firstName: name.split(" ")[0],
-        lastName: name.split(" ").slice(1).join(" "),
+        firstName: given_name,
+        lastName: family_name,
         email,
         googleId: sub,
         profileImage: picture,
       });
+    } else {
+      // Update googleId and profileImage if not already set
+      const updates = {};
+      if (!user.googleId) {
+        updates.googleId = sub;
+      }
+      if (!user.profileImage) {
+        updates.profileImage = picture;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        user = await User.update(updates, { where: { email } });
+      }
     }
+
     const jwtToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "10h",
     });
