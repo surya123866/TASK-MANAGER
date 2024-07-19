@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const customStyles = {
   content: {
@@ -26,7 +27,7 @@ const ViewTask = ({ isOpen, setIsOpen, taskId }) => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/task/${taskId}`,
+          `${apiUrl}/api/task/${taskId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

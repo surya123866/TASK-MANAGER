@@ -4,6 +4,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const customStyles = {
   content: {
@@ -30,14 +32,11 @@ const EditTask = ({ isOpen, setIsOpen, taskId }) => {
 
     const fetchTask = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/task/${taskId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${apiUrl}/api/task/${taskId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const { title, description, status } = response.data.task;
         setTask({ title, description, status });
       } catch (error) {
@@ -55,15 +54,11 @@ const EditTask = ({ isOpen, setIsOpen, taskId }) => {
   const handleUpdate = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.put(
-        `http://localhost:3000/api/task/${taskId}`,
-        task,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.put(`${apiUrl}/api/task/${taskId}`, task, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setTask(response.data.task);
       toast.success("Task updated successfully");
       closeModal();

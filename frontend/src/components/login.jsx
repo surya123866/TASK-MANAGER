@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useGoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_API_URL;
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",

@@ -7,6 +7,7 @@ import AddTask from "./addTask";
 import ViewTask from "./viewTaskDetails";
 import EditTask from "./editTask";
 import Navbar from "./navbar";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -25,7 +26,7 @@ const Dashboard = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/tasks", {
+      const response = await axios.get(`${apiUrl}/api/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -53,7 +54,7 @@ const Dashboard = () => {
 
   const handleDelete = async (taskId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/task/${taskId}`, {
+      await axios.delete(`${apiUrl}/api/task/${taskId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
