@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-
 const customStyles = {
   content: {
     top: "50%",
@@ -18,7 +17,7 @@ const customStyles = {
   },
 };
 
-const EditTask = ({ isOpen, setIsOpen, taskId }) => {
+const EditTask = ({ isOpen, setIsOpen, taskId, fetchTasks }) => {
   const token = Cookies.get("token");
 
   const [task, setTask] = useState({
@@ -30,7 +29,7 @@ const EditTask = ({ isOpen, setIsOpen, taskId }) => {
   useEffect(() => {
     if (!isOpen) return;
 
-    const fetchTask = async () => {
+    const fetchViewTask = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/task/${taskId}`, {
           headers: {
@@ -44,7 +43,7 @@ const EditTask = ({ isOpen, setIsOpen, taskId }) => {
       }
     };
 
-    fetchTask();
+    fetchViewTask();
   }, [isOpen, taskId, token]);
 
   const closeModal = () => {
@@ -60,6 +59,7 @@ const EditTask = ({ isOpen, setIsOpen, taskId }) => {
         },
       });
       setTask(response.data.task);
+      fetchTasks();
       toast.success("Task updated successfully");
       closeModal();
     } catch (error) {
