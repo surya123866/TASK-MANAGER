@@ -69,7 +69,9 @@ const Login = () => {
   return (
     <div className="flex flex-col gap-5 justify-between items-center w-full h-full">
       <div className="flex justify-between items-center bg-[#3273f5] h-16 px-10 w-full">
-        <h1 className="text-2xl font-bold text-white">Task Management</h1>
+        <h1 className="text-2xl font-bold text-white">
+          Task Management
+        </h1>
         <div className="flex justify-center items-center gap-5">
           <div className="flex justify-center items-center font-bold bg-white text-[#4981f1] rounded-md py-1 px-2">
             <Link to={"/login"}>Login</Link>
@@ -115,7 +117,7 @@ const Login = () => {
                 </a>
               </div>
             </form>
-            {/* <div className="text-center mt-5">
+            <div className="text-center mt-5">
               <button
                 type="submit"
                 className="p-2 bg-[#3273f5] text-white rounded"
@@ -123,25 +125,16 @@ const Login = () => {
               >
                 Login with <span className="font-semibold">Google</span>
               </button>
-            </div> */}
-            <div className="w-full text-center mt-5 relative">
-              <button
-                type="submit"
-                className="p-2 bg-[#3273f5] text-white rounded"
-                onClick={() => login()}
-              >
-                Login with <span className="font-semibold">Google</span>
-              </button>
-              <div className="text-center mt-5 absolute">
-                <GoogleLogin
-                  clientId={clientId}
-                  buttonText="Login with Google"
-                  onSuccess={handleGoogleLogin}
-                  onFailure={handleLoginFailure}
-                  cookiePolicy={"single_host_origin"}
-                  useOneTap
-                />
-              </div>
+            </div>
+            <div className="w-full text-center mt-5">
+              <GoogleLogin
+                clientId={clientId}
+                buttonText="Login with Google"
+                onSuccess={handleGoogleLogin}
+                onFailure={handleLoginFailure}
+                cookiePolicy={"single_host_origin"}
+                useOneTap
+              />
             </div>
           </div>
         </div>
