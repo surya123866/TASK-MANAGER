@@ -12,7 +12,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const corsOptions = {
-  origin: `${process.env.CLIENT_URL}`,
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
