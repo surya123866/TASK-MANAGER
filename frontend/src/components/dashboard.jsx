@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import TaskColumn from "./taskColumn";
 import AddTask from "./addTask";
 import ViewTask from "./viewTaskDetails";
 import EditTask from "./editTask";
+import Navbar from "./navbar";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const token = Cookies.get("token");
@@ -36,11 +35,6 @@ const Dashboard = () => {
     } catch (error) {
       toast.error("Error fetching tasks");
     }
-  };
-
-  const handleLogout = () => {
-    Cookies.remove("token");
-    navigate("/login");
   };
 
   const handleAdd = () => {
@@ -111,98 +105,90 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-4 bg-[#3273f5] px-10 py-1">
-        <h1 className="text-3xl font-bold text-white">
-          Task Management Dashboard
-        </h1>
+    <>
+      <Navbar />
+      <div className="p-8">
         <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white font-medium px-2 py-1 rounded"
+          className="bg-[#3273f5] text-white font-bold py-2 rounded px-10"
+          onClick={handleAdd}
         >
-          Logout
+          Add Task
         </button>
-      </div>
-      <button
-        className="bg-[#3273f5] text-white font-bold py-2 rounded px-10"
-        onClick={handleAdd}
-      >
-        Add Task
-      </button>
-      <div className="flex justify-between mb-4 p-4 rounded shadow-lg">
-        <div className="flex gap-1 items-center">
-          <p className="font-bold">Search:</p>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="p-2 border rounded"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+        <div className="flex justify-between mb-4 p-4 rounded shadow-lg">
+          <div className="flex gap-1 items-center">
+            <p className="font-bold">Search:</p>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="p-2 border rounded"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-1 items-center">
+            <p className="font-bold">Sort By:</p>
+            <select
+              className="p-2 border rounded"
+              onChange={(e) => handleSortBy(e.target.value)}
+            >
+              <option value="recent">Recent</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <TaskColumn
+            title={"TODO"}
+            status="todo"
+            tasks={tasks}
+            searchTerm={searchTerm}
+            onDrop={onDrop}
+            onDragStart={onDragStart}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+            handleViewDetails={handleViewDetails}
+          />
+          <TaskColumn
+            title={"IN PROGRESS"}
+            status="in-progress"
+            tasks={tasks}
+            searchTerm={searchTerm}
+            onDrop={onDrop}
+            onDragStart={onDragStart}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+            handleViewDetails={handleViewDetails}
+          />
+          <TaskColumn
+            title={"DONE"}
+            status="done"
+            tasks={tasks}
+            searchTerm={searchTerm}
+            onDrop={onDrop}
+            onDragStart={onDragStart}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+            handleViewDetails={handleViewDetails}
           />
         </div>
-        <div className="flex gap-1 items-center">
-          <p className="font-bold">Sort By:</p>
-          <select
-            className="p-2 border rounded"
-            onChange={(e) => handleSortBy(e.target.value)}
-          >
-            <option value="recent">Recent</option>
-            <option value="oldest">Oldest</option>
-          </select>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <TaskColumn
-          title={"TODO"}
-          status="todo"
-          tasks={tasks}
-          searchTerm={searchTerm}
-          onDrop={onDrop}
-          onDragStart={onDragStart}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleViewDetails={handleViewDetails}
+        <EditTask
+          isOpen={editModalIsOpen}
+          setIsOpen={setEditIsOpen}
+          taskId={editTaskId}
+          fetchTasks={fetchTasks}
         />
-        <TaskColumn
-          title={"IN PROGRESS"}
-          status="in-progress"
-          tasks={tasks}
-          searchTerm={searchTerm}
-          onDrop={onDrop}
-          onDragStart={onDragStart}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleViewDetails={handleViewDetails}
+        <ViewTask
+          isOpen={viewModalIsOpen}
+          setIsOpen={setViewIsOpen}
+          taskId={viewTaskId}
         />
-        <TaskColumn
-          title={"DONE"}
-          status="done"
-          tasks={tasks}
-          searchTerm={searchTerm}
-          onDrop={onDrop}
-          onDragStart={onDragStart}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-          handleViewDetails={handleViewDetails}
+        <AddTask
+          isOpen={addModalIsOpen}
+          setIsOpen={setAddIsOpen}
+          fetchTasks={fetchTasks}
         />
       </div>
-      <EditTask
-        isOpen={editModalIsOpen}
-        setIsOpen={setEditIsOpen}
-        taskId={editTaskId}
-        fetchTasks={fetchTasks}
-      />
-      <ViewTask
-        isOpen={viewModalIsOpen}
-        setIsOpen={setViewIsOpen}
-        taskId={viewTaskId}
-      />
-      <AddTask
-        isOpen={addModalIsOpen}
-        setIsOpen={setAddIsOpen}
-        fetchTasks={fetchTasks}
-      />
-    </div>
+    </>
   );
 };
 

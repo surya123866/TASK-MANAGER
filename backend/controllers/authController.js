@@ -31,7 +31,14 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "10h",
     });
-    res.json({ token });
+    res.json({
+      token,
+      user: {
+        name: user.name,
+        email: user.email,
+        picture: user.picture,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
   }
@@ -46,11 +53,10 @@ exports.googleAuth = async (req, res) => {
     });
     const { name, email, sub, picture } = ticket.getPayload();
     let user = await User.findOne({ where: { email } });
-
     if (!user) {
       user = await User.create({
         firstName: name.split(" ")[0],
-        lastName: name.split(" ").slice(1).join(""),
+        lastName: name.split(" ").slice(1).join(" "),
         email,
         googleId: sub,
         profileImage: picture,
@@ -60,7 +66,14 @@ exports.googleAuth = async (req, res) => {
       expiresIn: "10h",
     });
 
-    res.json({ token: jwtToken });
+    res.json({
+      token: jwtToken,
+      user: {
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        picture: user.profileImage,
+      },
+    });
   } catch (error) {
     console.error("Error during Google login:", error);
     res.status(500).json({ error: "Google login failed" });

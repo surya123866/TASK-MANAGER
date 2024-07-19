@@ -14,6 +14,8 @@ const sequelize = new Sequelize(
 const User = require("./user")(sequelize, DataTypes);
 const Task = require("./task")(sequelize, DataTypes);
 
+//Add {Alter:true} in the sync({Alter:true}) to update database every time server starts
+
 sequelize
   .sync()
   .then(() => console.log("Database & tables created!"))

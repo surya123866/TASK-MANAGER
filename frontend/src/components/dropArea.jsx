@@ -11,7 +11,7 @@ const DropArea = () => {
       onDrop={() => setShowDrop(false)}
       className={`${
         showDrop
-          ? "text-[#dcdcdc] w-full h-80px flex justify-center items-center p-4 mb-4 rounded shadow-lg space-y-5 border-2 border-dashed"
+          ? "text-[#dcdcdc] w-full h-80px flex justify-center items-center p-4 mb-4 rounded shadow-lg space-y-5 border-2 border-dashed transition-all duration-200 ease-in-out"
           : "opacity-0"
       }`}
     >
