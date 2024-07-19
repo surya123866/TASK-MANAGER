@@ -11,7 +11,7 @@ const logger = require("./logger");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "*",
+  origin: "https://task-manager-1-rmaw.onrender.com",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
