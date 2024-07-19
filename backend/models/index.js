@@ -16,7 +16,8 @@ const User = require("./user")(sequelize, DataTypes);
 const Task = require("./task")(sequelize, DataTypes);
 
 sequelize
-  .sync({ alter: true })
+  // .sync({ alter: true })
+  .sync()
   .then(() => console.log("Database & tables created!"))
   .catch((err) => console.error("Unable to create database & tables:", err));
 

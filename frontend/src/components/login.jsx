@@ -29,12 +29,15 @@ const Login = () => {
         email: formData.email,
         password: formData.password,
       });
-      toast.success("Logedin successfully");
+      const { name, email } = response.data.user;
+      toast.success(response.data.message);
       Cookies.set("token", response.data.token, { expires: 7, path: "" });
+      const userData = JSON.stringify({ name, email });
+      localStorage.setItem("userData", userData);
       navigate("/");
     } catch (error) {
-      console.error("Error logging in:", error);
-      toast.error("Failed to login. Please check your credentials.");
+      console.error("Error login:", error);
+       toast.error(error.response.data);
     }
   };
 
@@ -44,14 +47,14 @@ const Login = () => {
         accessToken: response.access_token,
       });
       const { name, email, picture } = res.data.user;
-      toast.success("login success");
+      toast.success("Login success");
       Cookies.set("token", res.data.token, { expires: 7, path: "" });
       const userData = JSON.stringify({ name, email, picture });
       localStorage.setItem("userData", userData);
       navigate("/");
     } catch (error) {
       console.error("Google login failed:", error);
-      toast.error("Google login failed. Please try again.");
+      toast.error(error.response.data);
     }
   };
 
@@ -60,7 +63,6 @@ const Login = () => {
     onError: () => toast.error("Google login failed. Please try again."),
     auto_select: true,
   });
-
 
   return (
     <div className="flex flex-col gap-5 justify-between items-center w-full h-full">

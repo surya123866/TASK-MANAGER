@@ -38,10 +38,14 @@ const Signup = () => {
         email: formData.email,
         password: formData.password,
       });
-      document.cookie = `token=${response.data.token}; path=/;`;
+      const { name, email } = response.data.user;
+       toast.success("SignUp success");
+      Cookies.set("token", response.data.token, { expires: 7, path: "" });
+      const userData = JSON.stringify({ name, email });
+      localStorage.setItem("userData", userData);
       navigate("/login");
     } catch (error) {
-      toast.error("Error registering:", error);
+      toast.error(error.response.data);
     }
   };
 
@@ -51,14 +55,14 @@ const Signup = () => {
         accessToken: response.access_token,
       });
       const { name, email, picture } = res.data.user;
-      toast.success("Google Registration success");
+      toast.success("Registered and LoggedIn success");
       Cookies.set("token", res.data.token, { expires: 7, path: "" });
       const userData = JSON.stringify({ name, email, picture });
       localStorage.setItem("userData", userData);
       navigate("/");
     } catch (error) {
-      toast.error("Google signup failed:", error);
-      console.error("Google signup failed:", error);
+      toast.error(error.response.data);
+      // console.error("Google signup failed:", error);
     }
   };
 

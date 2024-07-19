@@ -9,9 +9,10 @@ const { sequelize } = require("./models");
 const morgan = require("morgan");
 const logger = require("./logger");
 const cors = require("cors");
+require("dotenv").config();
 
 const corsOptions = {
-  origin: "*",
+  origin: `${process.env.CLIENT_URL}`,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };

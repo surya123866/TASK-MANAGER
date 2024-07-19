@@ -104,7 +104,7 @@ This application is a task management tool similar to Trello, allowing users to 
 
    ```plaintext
    PORT=3000
-   BASE_URL=http://yourdomain:3000
+   BASE_URL=http://localhost:3000
    DB_HOST=localhost
    DB_USER=root
    DB_PASS=
