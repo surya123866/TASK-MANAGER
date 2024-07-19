@@ -9,7 +9,8 @@ This application is a task management tool similar to Trello, allowing users to 
 
 # Demo Video
 
-Uploading Recording 2024-07-19 230621.mp4…
+
+https://github.com/user-attachments/assets/11521b99-1133-4890-9d8b-9d2f67d2b393
 
 
 ## Front-End Features
