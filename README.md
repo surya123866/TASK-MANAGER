@@ -1,81 +1,181 @@
-# TASK MANAGER Project
+# Task Management Application
 
-## Objective
-Develop a robust chat room system using JavaScript, Node.js, MySQL, and Express. The application should ensure security, user authentication, and interactive communication.
+## Introduction
 
-## Requirements
+This application is a task management tool similar to Trello, allowing users to create, update, and manage tasks within different columns. Users can move tasks between columns using drag-and-drop functionality. Additionally, the application supports user sign-up and login, including Google login.
 
-### 1. User Registration and Authentication
-- **Implement user registration and authentication using JWT.**
+## Front-End Requirements
+
+### User Interface
+
+- The UI is built based on the provided mock designs.
+- Drag-and-drop functionality is implemented using a suitable library.
+- Routing is implemented throughout the application.
+- Authentication is required on every page.
+
+## Back-End Requirements
+
+### Framework
+
+- The backend is built using Node.js with Express.
+
+### API Development
+
+- A RESTful API is created to handle CRUD (Create, Read, Update, Delete) operations for tasks.
+- Routes are implemented for creating, updating, and deleting tasks, as well as for retrieving all tasks.
+- Routes are implemented for user registration, login, and Google login authentication.
+
+### Data Storage
+
+- Either an SQL (e.g., PostgreSQL, MySQL) or NoSQL (e.g., MongoDB) database is used to store task data and user information.
+- Necessary data models are set up to represent tasks and users.
+
+### Validation
+
+- Server-side validation ensures that task data is valid before saving it to the database. Tasks must have a title and belong to a valid column.
+- Validation is implemented for user registration and login data.
+
+### Error Handling
+
+- Errors are properly handled, including sending appropriate error messages and status codes in response.
+
+## User Registration and Authentication
+
+### 1. User Registration
+
+- **Implemented user registration.**
 - Users should provide the following details for registration:
-  - `userId`: Unique identifier for the user.
-  - `deviceId`: Device identifier for the user's device.
-  - `name`: User's full name.
-  - `phone`: User's contact number.
-  - `availCoins`: Available coins for the user.
+  - `firstName`: User's first name.
+  - `lastName`: User's last name.
+  - `email`: User's email.
+  - `password`: User's password.
 
-### 2. Chat Room Creation
-- **Prime members can create a chat room.**
-- Create an endpoint (POST `/api/chatrooms`) for room creation, ensuring only authenticated prime members can access it.
-- If a chat room has reached its maximum capacity of 6 people, prevent further participants from joining, even with a valid room ID and password.
+### 2. User Login and Authentication
 
-### 3. Inviting Participants
-- **Chat room creators can invite other prime members using the room ID and password.**
-- Implement a secure invitation mechanism using a token system.
-- Non-prime members can join one room for free. After that, they must pay 150 coins to join additional rooms.
+- **Implemented user login and authentication using JWT.**
+- Users should provide the following details for login:
+  - `email`: User's email.
+  - `password`: User's password.
 
-### 4. Joining a Room as a Non-Prime Member
-- **Create an endpoint (POST `/api/joinroom`) for non-prime members to join a room.**
-- Check if the user is a prime member and has already joined a room for free.
-- If the user wants to join another room, ensure they have 150 coins; otherwise, deny access.
+### 3. User Login and Authentication using Google
 
-### 5. Chat Functionality
-- **Users within a chat room can send and receive messages in real-time.**
-- Implement WebSocket for real-time communication (POST `/api/messages`).
+- **Implemented user Register and authentication Google.**
+- Users should click on Register with Google button:  
 
-### 6. Profile Viewing
-- **Users can view each other's profiles.**
-- Create an endpoint (GET `/api/profile/:userId`) for profile retrieval.
 
-### 7. Friend Requests
-- **Users can send friend requests to other participants.**
-- Implement friend request functionality (POST `/api/friend-requests`).
+### 4. User Login and Authentication using Google
 
-### 8. Database Management
-- **Use MySQL to store user details, chat room information, messages, and friend requests.**
-- Implement proper database schema and queries.
+- **Implemented user login and authentication Google.**
+- Users should click on Login with Google button:  
 
-### 9. Security Measures
-- **Implement secure password storage using bcrypt.**
-- Ensure that only prime members can create chat rooms.
-- Protect sensitive information from unauthorized access.
+### Additional Features
 
-### 10. Error Handling and Validation
-- **Implement robust error handling and validation for user inputs.**
-- Handle responses appropriately, indicating reasons for denial (e.g., insufficient coins, unauthorized access).
+- User profiles with avatars.
+- Task due dates and reminders.
+- Task sorting and searching capabilities.
 
-## Installation
+## Getting Started
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/yourusername/chat-room-system.git
-   cd chat-room-system
+## Backend
 
-2.**Install dependencies:**
-   ```sh
+### Prerequisites
+
+- Node.js
+- npm (Node Package Manager)
+- MongoDB (or another database of your choice)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/surya123866/TASK-MANAGER.git
+   cd backend
+   ```
+
+2. Install dependencies:
+
+   ```bash
    npm install
+   ```
 
-3.**Set up environment variables:**
-  Create a .env file in the root directory and add the following variables:
-    ```sh
-    DB_HOST=your_database_host
-    DB_USER=your_database_user
-    DB_PASSWORD=your_database_password
-    DB_NAME=your_database_name
-    JWT_SECRET=your_jwt_secret
+3. Set up environment variables:
+   Create a `.env` file in the root directory and add the following:
 
-4.**Run the application:**
-   ```sh
-   node server.js
+   ```plaintext
+   PORT=3000
+   BASE_URL=http://yourdomain:3000
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASS=
+   DB_NAME=task_manager
+   JWT_SECRET=your_jwt_secret
+   GOOGLE_CLIENT_ID=
+   GOOGLE_CLIENT_SECRET=
+   ```
 
+4. Start the application:
+   ```bash
+   npm start
+   ```
 
+### Running Tests
+
+- To run the unit tests:
+  ```bash
+  npm test
+  ```
+
+---
+
+## Frontend
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/surya123866/TASK-MANAGER.git
+   cd frontend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file in the root directory and add the following:
+
+   ```plaintext
+   VITE_API_URL=http://localhost:3000
+   VITE_GOOGLE_CLIENT_ID=
+   ```
+
+4. Start the application:
+   ```bash
+   npm start
+   ```
+
+### Running Tests
+
+- To run the unit tests:
+  ```bash
+  npm test
+  ```
+
+---
+
+## Functionality
+
+1. Register a new account or log in with existing credentials.
+2. Drag-and-drop functionality to manage tasks across different columns.
+3. Adding, editing, and deleting tasks.
+4. Google login for authentication.
+
+---
+
+## Contributing
+
+Feel free to open issues or submit pull requests for improvements and new features.
