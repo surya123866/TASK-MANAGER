@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { toast } from "react-toastify";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const customStyles = {
   content: {
@@ -35,7 +36,7 @@ const AddTask = ({ isOpen, setIsOpen, fetchTasks }) => {
   const handleAddTask = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/task/create", task, {
+      await axios.post(`${apiUrl}/api/task/create`, task, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -85,7 +85,7 @@ const Dashboard = () => {
       try {
         const updatedTask = { ...draggingTask, status };
         await axios.put(
-          `http://localhost:3000/api/task/${draggingTask.id}`,
+          `${apiUrl}/api/task/${draggingTask.id}`,
           updatedTask,
           {
             headers: {
