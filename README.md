@@ -4,7 +4,15 @@
 
 This application is a task management tool similar to Trello, allowing users to create, update, and manage tasks within different columns. Users can move tasks between columns using drag-and-drop functionality. Additionally, the application supports user sign-up and login, including Google login.
 
-## Front-End Requirements
+## Demo Screen shot
+![Screenshot 2024-07-19 225934](https://github.com/user-attachments/assets/e632d569-5bb2-498e-bf28-f3a90f5ca31c)
+
+# Demo Video
+
+Uploading Recording 2024-07-19 230621.mp4…
+
+
+## Front-End Features
 
 ### User Interface
 
@@ -13,7 +21,7 @@ This application is a task management tool similar to Trello, allowing users to 
 - Routing is implemented throughout the application.
 - Authentication is required on every page.
 
-## Back-End Requirements
+## Back-End Implementation
 
 ### Framework
 
@@ -27,12 +35,13 @@ This application is a task management tool similar to Trello, allowing users to 
 
 ### Data Storage
 
-- Either an SQL (e.g., PostgreSQL, MySQL) or NoSQL (e.g., MongoDB) database is used to store task data and user information.
+- Either an SQL database is used to store task data and user information.
 - Necessary data models are set up to represent tasks and users.
 
 ### Validation
 
-- Server-side validation ensures that task data is valid before saving it to the database. Tasks must have a title and belong to a valid column.
+- Server-side validation ensures that task data is valid before saving it to the database.
+- Tasks must have a title and belong to a valid column.
 - Validation is implemented for user registration and login data.
 
 ### Error Handling
@@ -57,7 +66,7 @@ This application is a task management tool similar to Trello, allowing users to 
   - `email`: User's email.
   - `password`: User's password.
 
-### 3. User Login and Authentication using Google
+### 3. User registration using Google
 
 - **Implemented user Register and authentication Google.**
 - Users should click on Register with Google button:  
@@ -71,7 +80,6 @@ This application is a task management tool similar to Trello, allowing users to 
 ### Additional Features
 
 - User profiles with avatars.
-- Task due dates and reminders.
 - Task sorting and searching capabilities.
 
 ## Getting Started
@@ -100,11 +108,12 @@ This application is a task management tool similar to Trello, allowing users to 
    ```
 
 3. Set up environment variables:
-   Create a `.env` file in the root directory and add the following:
+   Create a `.env.local` file in the root directory and add the following:
 
    ```plaintext
    PORT=3000
    BASE_URL=http://localhost:3000
+   CLIENT_URL=http://localhost:5173
    DB_HOST=localhost
    DB_USER=root
    DB_PASS=
