@@ -39,7 +39,7 @@ const Signup = () => {
         password: formData.password,
       });
       const { name, email } = response.data.user;
-       toast.success("SignUp success");
+      toast.success("SignUp success");
       Cookies.set("token", response.data.token, { expires: 7, path: "" });
       const userData = JSON.stringify({ name, email });
       localStorage.setItem("userData", userData);
@@ -142,10 +142,10 @@ const Signup = () => {
                 Signup
               </button>
               <div className="text-center mt-4">
-                <a href="/login" className="font-bold">
+                <Link to="/login" className="font-bold">
                   Already have an account?{" "}
                   <span className="text-[#3273f5]">Login</span>
-                </a>
+                </Link>
               </div>
             </form>
             <div className="text-center mt-5">
