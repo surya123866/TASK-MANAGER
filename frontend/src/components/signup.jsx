@@ -62,33 +62,36 @@ const Signup = () => {
       navigate("/");
     } catch (error) {
       toast.error(error.response.data);
-      // console.error("Google signup failed:", error);
     }
   };
 
   const login = useGoogleLogin({
     onSuccess: handleGoogleSignup,
-    onError: () => toast.error("Google login failed. Please try again."),
+    onError: () => toast.error("Google signup failed. Please try again."),
     auto_select: true,
   });
 
   return (
     <div className="flex flex-col gap-5 justify-between items-center w-full h-full">
-      <div className="flex justify-between items-center bg-[#3273f5] h-16 px-10 w-full">
-        <h1 className="text-2xl font-bold text-white">Task Management</h1>
-        <div className="flex justify-center items-center gap-5">
-          <div className="flex justify-center items-center font-bold text-white rounded-md py-1 px-2">
+      <div className="flex justify-between items-center bg-[#3273f5] h-16 px-2 lg:px-4 sm:px-10 w-full">
+        <h1 className="text-xl sm:text-2xl font-bold text-white">
+          Task Management
+        </h1>
+        <div className="flex justify-center items-center gap-2 sm:gap-5">
+          <div className="flex justify-center items-center font-bold text-white rounded-md py-1 px-2 text-sm sm:text-base">
             <Link to={"/login"}>Login</Link>
           </div>
-          <div className="flex justify-center items-center font-bold bg-white text-[#4981f1] rounded-md py-1 px-2">
+          <div className="flex justify-center items-center font-bold bg-white text-[#4981f1] rounded-md py-1 px-2 text-sm sm:text-base">
             <Link to={"/signup"}>Signup</Link>
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <div className="text-left">
-          <h2 className="text-2xl mb-4 font-bold text-[#3273f5]">Signup</h2>
-          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm border-2 border-[#3273f5]">
+      <div className="flex flex-col justify-center items-center w-full p-4">
+        <div className="text-left w-full max-w-md">
+          <h2 className="text-xl sm:text-2xl mb-4 font-bold text-[#3273f5]">
+            Signup
+          </h2>
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md border-2 border-[#3273f5]">
             <form onSubmit={handleSubmit}>
               <input
                 name="firstName"
@@ -96,7 +99,7 @@ const Signup = () => {
                 placeholder="First Name"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full p-2 mb-3 border rounded"
+                className="w-full p-2 mb-3 border rounded text-sm sm:text-base"
                 required
               />
               <input
@@ -105,7 +108,7 @@ const Signup = () => {
                 placeholder="Last Name"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full p-2 mb-3 border rounded"
+                className="w-full p-2 mb-3 border rounded text-sm sm:text-base"
                 required
               />
               <input
@@ -114,7 +117,7 @@ const Signup = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-2 mb-3 border rounded"
+                className="w-full p-2 mb-3 border rounded text-sm sm:text-base"
                 required
               />
               <input
@@ -123,7 +126,7 @@ const Signup = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full p-2 mb-3 border rounded"
+                className="w-full p-2 mb-3 border rounded text-sm sm:text-base"
                 required
               />
               <input
@@ -132,17 +135,17 @@ const Signup = () => {
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full p-2 mb-3 border rounded"
+                className="w-full p-2 mb-3 border rounded text-sm sm:text-base"
                 required
               />
               <button
                 type="submit"
-                className="w-full p-2 bg-[#3273f5] text-white rounded"
+                className="w-full p-2 bg-[#3273f5] text-white rounded text-sm sm:text-base"
               >
                 Signup
               </button>
               <div className="text-center mt-4">
-                <Link to="/login" className="font-bold">
+                <Link to="/login" className="font-bold text-sm sm:text-base">
                   Already have an account?{" "}
                   <span className="text-[#3273f5]">Login</span>
                 </Link>
@@ -151,7 +154,7 @@ const Signup = () => {
             <div className="text-center mt-5">
               <button
                 type="submit"
-                className="p-2 bg-[#3273f5] text-white rounded"
+                className="p-2 bg-[#3273f5] text-white rounded text-sm sm:text-base"
                 onClick={() => login()}
               >
                 Signup with <span className="font-semibold">Google</span>

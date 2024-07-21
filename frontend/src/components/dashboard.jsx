@@ -108,14 +108,14 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <div className="p-8">
+      <div className="p-4">
         <button
           className="bg-[#3273f5] text-white font-bold py-2 rounded px-10"
           onClick={handleAdd}
         >
           Add Task
         </button>
-        <div className="flex justify-between mb-4 p-4 rounded shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between mb-4 p-4 rounded shadow-lg gap-2">
           <div className="flex gap-1 items-center">
             <p className="font-bold">Search:</p>
             <input
@@ -137,7 +137,7 @@ const Dashboard = () => {
             </select>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <TaskColumn
             title={"TODO"}
             status="todo"
