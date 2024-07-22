@@ -2,8 +2,12 @@
 import Modal from "react-modal";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const customStyles = {
@@ -23,13 +27,34 @@ const customStyles = {
   },
 };
 
+const schema = yup.object().shape({
+  title: yup
+    .string()
+    .trim()
+    .min(3, "Title cannot be empty")
+    .required("Title is required"),
+  description: yup
+    .string()
+    .trim()
+    .min(3, "Description cannot be empty")
+    .required("Description is required"),
+  status: yup
+    .string()
+    .oneOf(["todo", "in-progress", "done"], "Invalid status")
+    .required("Status is required"),
+});
+
 const EditTask = ({ isOpen, setIsOpen, taskId, fetchTasks }) => {
   const token = Cookies.get("token");
 
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
-    status: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -43,42 +68,35 @@ const EditTask = ({ isOpen, setIsOpen, taskId, fetchTasks }) => {
           },
         });
         const { title, description, status } = response.data.task;
-        setTask({ title, description, status });
+        setValue("title", title);
+        setValue("description", description);
+        setValue("status", status);
       } catch (error) {
         toast.error("Error fetching task");
       }
     };
 
     fetchViewTask();
-  }, [isOpen, taskId, token]);
+  }, [isOpen, taskId, token, setValue]);
 
   const closeModal = () => {
     setIsOpen(false);
+    reset();
   };
 
-  const handleUpdate = async (event) => {
-    event.preventDefault();
+  const handleUpdate = async (data) => {
     try {
-      const response = await axios.put(`${apiUrl}/api/task/${taskId}`, task, {
+      await axios.put(`${apiUrl}/api/task/${taskId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setTask(response.data.task);
       fetchTasks();
       toast.success("Task updated successfully");
       closeModal();
     } catch (error) {
       toast.error("Error updating task");
     }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setTask((prevTask) => ({
-      ...prevTask,
-      [name]: value,
-    }));
   };
 
   return (
@@ -90,32 +108,33 @@ const EditTask = ({ isOpen, setIsOpen, taskId, fetchTasks }) => {
       ariaHideApp={false}
     >
       <h2 className="text-xl font-semibold mb-4">Edit Task</h2>
-      <form onSubmit={handleUpdate} className="space-y-4">
+      <form onSubmit={handleSubmit(handleUpdate)} className="space-y-4">
         <input
           className="w-full px-3 py-2 border rounded-md"
           placeholder="Edit task title"
-          name="title"
-          value={task.title}
-          onChange={handleChange}
+          {...register("title")}
         />
+        {errors.title && <p className="text-red-500">{errors.title.message}</p>}
         <textarea
           className="w-full px-3 py-2 border rounded-md resize-none"
           placeholder="Edit task description"
-          name="description"
-          value={task.description}
-          onChange={handleChange}
+          {...register("description")}
         />
+        {errors.description && (
+          <p className="text-red-500">{errors.description.message}</p>
+        )}
         <select
           className="w-full px-3 py-2 border rounded-md"
-          name="status"
-          value={task.status}
-          onChange={handleChange}
+          {...register("status")}
         >
           <option value="">Select status</option>
           <option value="todo">Todo</option>
           <option value="in-progress">In Progress</option>
           <option value="done">Done</option>
         </select>
+        {errors.status && (
+          <p className="text-red-500">{errors.status.message}</p>
+        )}
         <div className="flex space-x-2">
           <button
             type="submit"
