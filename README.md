@@ -36,7 +36,7 @@ https://github.com/user-attachments/assets/11521b99-1133-4890-9d8b-9d2f67d2b393
 
 ### Data Storage
 
-- Either an SQL database is used to store task data and user information.
+- SQL database is used to store task data and user information.
 - Necessary data models are set up to represent tasks and users.
 
 ### Validation
@@ -91,7 +91,7 @@ https://github.com/user-attachments/assets/11521b99-1133-4890-9d8b-9d2f67d2b393
 
 - Node.js
 - npm (Node Package Manager)
-- MongoDB (or another database of your choice)
+- SQL (or another database of your choice)
 
 ### Installation
 
